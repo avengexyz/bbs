@@ -1,0 +1,65 @@
+<div id="position" class="auto">
+    <a href="index.php">首页</a> &gt; 会员中心
+</div>
+<div id="main" class="auto">
+    <div id="left">
+        <ul class="postsList">
+            <?php while($data_content=mysqli_fetch_assoc($result_content)){
+                $data_content['title']=htmlspecialchars($data_content['title']);
+                //查询回复数
+                $query="select count(*) from sfk_reply where content_id={$data_content['id']}";
+                $count_reply=num($link, $query);
+                //查询最后回复时间
+                $query="select time from sfk_reply where content_id={$data_content['id']} order by id desc limit 0,1";
+                $result_last_reply=execute($link,$query);
+                if(mysqli_num_rows($result_last_reply)==0){
+                    $last_time='暂无回复';
+                }else{
+                    $data_last_reply=mysqli_fetch_assoc($result_last_reply);
+                    $last_time=$data_last_reply['time'];
+                }
+                //查询头像
+            ?>
+            <li>
+                <div class="smallPic">
+                    <a href="#">
+                        <img width="45" height="45" src="index/style/photo.jpg" />
+                    </a>
+                </div>
+                <div class="subject">
+                    <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
+                    <p>
+                        <a target='_blank' href='content_update.php?id=<?php echo $data_content['id'] ?>'>编辑</a> | <a href='confirm.php?id=<?php echo $data_content['id']?>'>删除</a>
+                        最后回复：<?php echo $last_time ?>
+                    </p>
+                </div>
+                <div class="count">
+                    <p>
+                        回复<br /><span><?php echo $count_reply?></span>
+                    </p>
+                    <p>
+                        浏览<br /><span><?php echo $data_content['times']?></span>
+                    </p>
+                </div>
+                <div style="clear:both;"></div>
+            </li>
+            <?php }?>
+        </ul>
+        <div class="pages"></div>
+    </div>
+    <div id="right">
+        <div class="member_big">
+            <dl>
+                <dt>
+                    <img width="180" height="180" src="<?php if($data_member['photo']!=''){echo $data_member['photo'];}else{echo 'index/style/photo.jpg';}?>" />
+                </dt>
+                <dd class="name"><?php echo $data_member['name']?></dd>
+                <dd>帖子总计：<?php echo $count_all?></dd>
+                <dd>操作：<a target="_blank" href="member_photo_update.php">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
+            </dl>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+    <?php echo $page['html']?>
+</div>

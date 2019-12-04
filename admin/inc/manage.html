@@ -1,0 +1,30 @@
+
+	<div id="main">
+		<div class="title">管理员列表</div>
+		
+		<table class="list">
+			<tr>
+				<th>名称</th>	 	 	
+                <th>等级</th>
+				<th>创建日期</th>                
+				<th>操作</th>
+            </tr>
+            <?php while($data=mysqli_fetch_assoc($result)) {
+                if($data['level']==0){
+                    $data['level']='超级管理员';
+                }else{
+                    $data['level']='普通管理员';
+                }
+            ?>
+			<tr>
+				<td><?php echo $data['name'] ?></td>
+                <td><?php echo $data['level'] ?></td>
+				<td><?php echo $data['create_time'] ?></td>                
+				<td>
+					<a href="#">[编辑]</a>&nbsp;&nbsp;
+					<a href="#">[删除]</a>
+				</td>
+            </tr>
+            <?php }?>            
+		</table>
+	</div>

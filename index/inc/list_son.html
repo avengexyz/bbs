@@ -1,0 +1,95 @@
+<div id="position" class="auto">
+        <a href="index.php">首页</a> &gt; <a href="list_son.php?id=<?php echo $data_son['id']?>"><?php echo $data_son['module_name']?></a>    
+</div>
+<div id="main" class="auto">
+   <div id="left">
+       <div class="box_wrap">
+           <h3><?php echo $data_son['module_name']?></h3>
+           <div class="num">
+               今日：<span><?php echo $count_today ?></span>&nbsp;&nbsp;&nbsp;
+               总帖：<span><?php echo $count_all ?></span>
+           </div>
+           <div class="moderator">版主：<span><?php echo $son['name']?></span></div>
+           <div class="notice"><?php echo $son['info']?></div>
+           <div class="pages_wrap">
+               <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>"></a>
+               <div class="pages">
+                <?php echo $page['html']?>
+               </div>
+               <div style="clear:both;"></div>
+           </div>
+       </div>
+       <div style="clear:both;"></div>
+       <ul class="postsList">
+            <?php while($data_content=mysqli_fetch_assoc($result_content)) {
+                //防止用户html标签注入
+                $data_content['title']=htmlspecialchars($data_content['title']); 
+                //查询最后回复时间 所以只要查询出这个帖子的所有回复 然后倒序取一条出来就好了
+                $query="select time from sfk_reply where content_id={$data_content['id']} order by id desc limit 0,1";
+                $result_last_reply=execute($link,$query);
+                if(mysqli_num_rows($result_last_reply)==0){
+                    $last_time='暂无回复';
+                }else{
+                    $data_last_reply=mysqli_fetch_assoc($result_last_reply);
+                    $last_time=$data_last_reply['time'];
+                }
+                //查询帖子总回复数
+                $query="select count(*) from sfk_reply where content_id={$data_content['id']}";
+                $result=execute($link,$query);
+                $count=mysqli_fetch_row($result);
+            ?>
+           <li>
+               <div class="smallPic">
+                   <a href="#">
+                       <img width="45" height="45"src="style/2374101_small.jpg">
+                   </a>
+               </div>
+               <div class="subject">
+                   <div class="titleWrap"><a href="#">[<?php echo $data_content['module_name'] ?>]</a>&nbsp;&nbsp;<h2><a href="show.php?id=<?php echo $data_content['id'] ?>"><?php echo $data_content['title'] ?></a></h2></div>
+                   <p>
+                       楼主：<?php echo $data_content['name'] ?>&nbsp;<?php echo $data_content['time'] ?>&nbsp;&nbsp;&nbsp;&nbsp;最后回复：<?php echo $last_time ?>
+                   </p>
+               </div>
+               <div class="count">
+                   <p>
+                       回复<br /><span><?php echo $count[0] ?></span>
+                   </p>
+                   <p>
+                       浏览<br /><span><?php echo $data_content['times'] ?></span>
+                   </p>
+               </div>
+               <div style="clear:both;"></div>
+           </li>
+           <?php }?>
+       </ul>
+       <div class="pages_wrap">
+           <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>"></a>
+           <div class="pages">
+            <?php echo $page['html']?>
+           </div>
+           <div style="clear:both;"></div>
+       </div>
+   </div>
+   <div id="right">
+       <div class="classList">
+           <div class="title">版块列表</div>
+           <ul class="listWrap">
+            <?php while($data_father1=mysqli_fetch_assoc($result_father1)) {?>
+                <li>
+                    <h2><a href="list_father.php?id=<?php echo $data_father1['id']?>"><?php echo $data_father1['module_name']?></a></h2>
+                    <ul>
+                        <?php 
+                        $query="select * from sfk_son_module where father_module_id={$data_father1['id']}";
+                        $result_father2=execute($link,$query);
+                        while($data_father2=mysqli_fetch_assoc($result_father2)){
+                        ?>
+                        <li><h3><a href="list_son.php?id=<?php echo $data_father2['id']?>"><?php echo $data_father2['module_name']?></a></h3></li>
+                        <?php }?>
+                    </ul>
+                </li>
+                <?php }?>
+           </ul>
+       </div>
+   </div>
+   <div style="clear:both;"></div>
+</div>

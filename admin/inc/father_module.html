@@ -1,0 +1,23 @@
+
+	<div id="main">
+		<div class="title">父板块列表</div>
+		
+		<table class="list">
+			<tr>
+				<th>排序</th>	 	 	
+				<th>版块名称</th>
+				<th>操作</th>
+			</tr>
+			<?php foreach($row as $v) {?>
+			<tr>
+				<td><input class="sort" type="text" name="sort" /></td>
+				<td><?php echo $v['module_name']?>&nbsp;id为:<?php echo $v['id']?></td>
+				<td>
+					<a href="#">[访问]</a>&nbsp;&nbsp;
+					<a href="father_module_update.php?id=<?php echo $v['id']?>">[编辑]</a>&nbsp;&nbsp;
+					<a href="confirm.php?id=<?php echo $v['id']?>">[删除]</a>
+				</td>
+			</tr>
+			<?php }?>
+		</table>
+	</div>

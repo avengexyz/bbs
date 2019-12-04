@@ -1,0 +1,57 @@
+<div id="main">
+	<div class="title" style="margin-bottom:20px;">添加子版块</div>
+	<form method="post" action="">
+		<table class="au">
+			<?php foreach($row1 as $val){ ?>
+			<tr>
+				<td>所属父板块</td>
+				<td>
+					<select name="father_module">
+						<?php foreach($row as $v){ ?>
+						<option value="<?php echo $v['id']; ?>" <?php if($val['father_module_id']===$v['id']){echo "selected";}?> ><?php echo $v['module_name']?></option>
+						<?php }?>
+					</select>
+				</td>
+				<td>
+					必须选择一个所属的父板块
+				</td>
+			</tr>
+			<tr>
+				<td>版块名称</td>
+				<td><input name="module_name" type="text" value="<?php echo $val['module_name']; ?>"/></td>
+				<td>
+					版块名称不得为空，最大不得超过66个字符
+				</td>
+			</tr>
+			<tr>
+				<td>版块简介</td>
+				<td>
+					<textarea name="info" ><?php echo $val['info']; ?></textarea>
+				</td>
+				<td>
+					简介不得多于255个字符
+				</td>
+			</tr>
+			<tr>
+				<td>版主</td>
+				<td>
+					<select name="member_id">
+						<option value="0">版主</option>
+					</select>
+				</td>
+				<td>
+					请选择一个会员作为版主
+				</td>
+			</tr>
+			<tr>
+				<td>排序</td>
+				<td><input name="sort" type="text" value="<?php echo $val['sort']; ?>"/></td>
+				<td>
+					填写一个数字即可
+				</td>
+			</tr>
+			<?php }?>
+		</table>
+		<input style="margin-top:20px;cursor:pointer;" class="btn" type="submit" name="submit" value="添加" />
+	</form>
+</div>

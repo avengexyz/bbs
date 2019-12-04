@@ -1,0 +1,14 @@
+
+	<div id="register" class="auto">
+		<h2>欢迎注册成为 私房库会员</h2>
+		<form method="POST" action="">
+			<label>用户名：<input type="text" name="name" /><span>*用户名不得为空,并且长度不能超过32个字符</span></label>
+			<label>密码：<input type="password" name="pw" /><span>*密码不得少于6位</span></label>
+			<label>确认密码：<input type="password" name="confirm_pw" /><span>*确认密码与上次结果相同</span></label>
+			<label>验证码：<input name="vcode" type="text" name="vocode" /><span>*请输入下方验证码</span></label>
+			<!-- <img class="vcode" src="index/style/show_code_php.jpg" /> -->
+			<img class="vcode" src="inc/vcode.inc.php" onclick="this.src='inc/vcode.inc.php?'+new Date().getTime();" width="200" height="60"><br/>
+			<div style="clear:both;"></div>
+			<input class="btn" name="submit" type="submit" value="确定注册" />
+		</form>
+	</div>

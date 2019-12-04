@@ -1,0 +1,12 @@
+<div id="position" class="auto">
+    <a href="index.php">首页</a> &gt;回复帖子
+</div>
+<div id="publish">
+   <div>回复：由 <?php echo $data['name']?> 发布的 <?php echo $data['content']?></div>
+   <!-- <form method="post" action="inc/check_reply.inc.php?id=<?php echo $data['id']?>"> -->
+   <form method="post" action="">
+       <textarea name="content" class="content"></textarea>
+       <input class="reply" type="submit" name="submit" value="" />
+       <div style="clear:both;"></div>
+   </form>
+</div>

@@ -1,0 +1,30 @@
+
+	<div id="position" class="auto">
+		 <a href="index.php">首页</a> &gt; 发布帖子
+	</div>
+	<div id="publish">
+		<form method="post" action="">
+			<select name="module_id">
+			<?php 
+			while ($data_father=mysqli_fetch_assoc($result_father)){
+				echo "<optgroup label='{$data_father['module_name']}'>";
+				$query="select * from sfk_son_module where father_module_id={$data_father['id']} order by sort desc";
+				$result_son=execute($link, $query);
+				while ($data_son=mysqli_fetch_assoc($result_son)){
+						if(isset($_GET['son_module_id']) && $_GET['son_module_id']==$data_son['id'] ){
+							echo "<option selected='selected' value='{$data_son['id']}'>{$data_son['module_name']}</option>";	
+						}else{
+							echo "<option value='{$data_son['id']}'>{$data_son['module_name']}</option>";
+						}
+				}
+				echo "</optgroup>";
+			}
+			?>
+				<!-- <?php ?> -->
+			</select>
+			<input class="title" placeholder="请输入标题" name="title" type="text" />
+			<textarea name="content" class="content"></textarea>
+			<input class="publish" type="submit" name="submit" value="发帖" />
+			<div style="clear:both;"></div>
+		</form>
+	</div>
